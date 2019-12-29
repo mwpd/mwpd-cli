@@ -1,6 +1,6 @@
 <?php
 
-namespace ExampleProject;
+namespace Scaffold;
 
 class Example
 {

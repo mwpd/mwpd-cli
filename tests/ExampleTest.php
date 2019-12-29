@@ -1,6 +1,6 @@
 <?php
 
-namespace ExampleProject;
+namespace Scaffold;
 
 use PHPUnit\Framework\TestCase;
 
