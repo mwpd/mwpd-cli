@@ -1,6 +1,6 @@
 {
     "name": "mwpd/scaffold",
-    "description": "Template project for PHP libraries.",
+    "description": "Scaffolding tool for the Modern\\WP::development() toolset",
     "license": "MIT",
     "authors": [
         {
@@ -10,25 +10,25 @@
     ],
     "autoload": {
         "psr-4": {
-            "Scaffold\\": "src"
+            "MWPD\\Scaffold\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Scaffold\\": "tests/src"
+            "MWPD\\Scaffold\\Tests\\": "tests/src"
         }
     },
     "require": {
-        "php": ">=7.1"
+        "php": ">=7.2"
     },
     "require-dev": {
-        "consolidation/Robo": "^1.3",
-        "knplabs/github-api": "^2.7",
-        "php-http/guzzle6-adapter": "^1.1",
-        "phpunit/phpunit": "^6",
-        "g1a/composer-test-scenarios": "^2",
-        "satooshi/php-coveralls": "^2",
-        "squizlabs/php_codesniffer": "^2.8"
+        "consolidation/robo": "^2",
+	    "g1a/composer-test-scenarios": "^3",
+        "knplabs/github-api": "^2",
+        "php-http/guzzle6-adapter": "^2",
+        "phpunit/phpunit": "^8",
+        "php-coveralls/php-coveralls": "^2",
+        "squizlabs/php_codesniffer": "^3"
     },
     "scripts": {
         "phar:install-tools": [
@@ -52,7 +52,6 @@
         "release": [
             "release VERSION"
         ],
-        "scenario": "scenarios/install",
         "post-update-cmd": [
             "dependency-licenses"
         ]
@@ -61,7 +60,7 @@
         "optimize-autoloader": true,
         "sort-packages": true,
         "platform": {
-            "php": "7.1.13"
+            "php": "7.2"
         }
     },
     "extra": {

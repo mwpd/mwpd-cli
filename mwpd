@@ -1,0 +1,55 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+namespace MWPD\Scaffold;
+
+use MWPD\Scaffold\Cli\ScaffoldCommands;
+use Phar;
+use Robo\Runner;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
+/**
+ * Example commandline front controller
+ *
+ * The commandline tool is useful for providing ad-hoc access to our class implementations
+ */
+
+// If we're running from phar load the phar autoload file.
+$pharPath = Phar::running(true);
+if ($pharPath) {
+    $autoloaderPath = "$pharPath/vendor/autoload.php";
+} else {
+    if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+        $autoloaderPath = __DIR__ . '/vendor/autoload.php';
+    } elseif (file_exists(__DIR__ . '/../../autoload.php')) {
+        $autoloaderPath = __DIR__ . '/../../autoload.php';
+    } else {
+        die("Could not find autoloader. Run 'composer install'.");
+    }
+}
+$classLoader = require $autoloaderPath;
+
+// Customization variables
+$argv                 = $_SERVER['argv'];
+$appName              = 'MWPD';
+$appVersion           = trim(file_get_contents(__DIR__ . '/VERSION'));
+$selfUpdateRepository = 'mwpd/scaffold';
+$configPrefix         = 'SCAFFOLD';
+$configFilePath       = getenv($configPrefix . '_CONFIG') ?: getenv('HOME') . '/.scaffold/scaffold.yml';
+
+$commands = [
+    ScaffoldCommands::class,
+];
+
+// Define our Runner, and pass it the command classes we provide.
+$runner = new Runner($commands);
+$runner
+    ->setSelfUpdateRepository($selfUpdateRepository)
+    ->setConfigurationFilename($configFilePath)
+    ->setEnvConfigPrefix($configPrefix)
+    ->setClassLoader($classLoader);
+
+// Execute the command and return the result.
+$output     = new ConsoleOutput();
+$statusCode = $runner->execute($argv, $appName, $appVersion, $output);
+exit($statusCode);
